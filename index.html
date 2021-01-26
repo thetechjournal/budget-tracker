@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Budget Tracker</title>
+</head>
+<body>
+    <header>
+        <h1>Budget 💸 Smart</h1>
+    </header>
+    <main>
+        <div id="success">
+            <div id="success-modal">
+                <h2>Congratulations 🎉</h2>
+                <p id="message">You have a monthly budget available for this expense.</p>
+                <button id="update-expense">Update Expense Table</button>
+                <button id="close-modal">Close</button>
+            </div>
+        </div>
+        <div id="failure">
+            <div id="failure-modal">
+                <h2>Sorry...</h2>
+                <p id="message">You don't have a monthly budget available for this expense.</p>
+                <button id="close-sorry-modal">Close</button>
+            </div>
+        </div>
+        <div id="container">
+            <div id="summary">
+                <p class="sign-up-text">Please enter your income amount to start managing your budget</p>
+               
+                <label class="label">Total Income: </label>
+                <input id="total-income" type="number" min="1"></input>
+                <button id="continue">Continue</button>
+                <p id="error-text-income"></p>
+                <p class="input-text">Input your expense details to see if you have a budget available. You can also buy later by adding to favourite.</p>
+            </div>
+            <div id="expense-eligibility">
+                <input type="text" id="prod-desc" name="desc" placeholder="description"></input>
+                <input type="number" id="prod-value" name="value" placeholder="value" min="1"></input>
+                <select id="expense-type">
+                    <!-- <option>Expense type</option> -->
+                    <option>Grocery</option>
+                    <option>Housing</option>
+                    <option>Transportation</option>
+                    <option>Educational</option>
+                    <option>Entertainment</option>
+                    <option>Medical</option>
+                    <option>Personal</option>
+                    <option>Utility</option>
+                    <option>Other</option>
+                </select>
+
+                <button id="btn-budget-check">Budget Check</button>
+                <p id="error-text"></p>
+            </div>
+            <div id="budget-allocation" class="columns"> 
+                <div id="expense-chart" class="chart">
+                    <p class="chart-heading">Budget breakdown</p>
+                    <canvas id="myCanvas"></canvas>
+                    <div id="myLegend"></div>
+                </div>
+                <div id="expense-detail" class="detail">
+                    <table>
+                        <tr class="expense-type-header">
+                            <th>Expense Type</th>
+                            <th>Budget %</th>
+                            <th>Monthly Budget</th>
+                            <th>Your Expense</th>
+                            <th>Available</th>
+                        </tr>
+                        <tr class="grocery">
+                            <td><span class="legend legend--medium bg-green"></span>Grocery</td>
+                            <td>20%</td>
+                            <td id="exp-grocery-limit" class="budget-limit">0</td>
+                            <td id="exp-grocery" class="exp-amount">0</td>
+                            <td id="exp-grocery-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="housing">
+                            <td><span class="legend legend--medium bg-dodger-blue"></span>Housing</td>
+                            <td>20%</td>
+                            <td id="exp-housing-limit" class="budget-limit">0</td>
+                            <td id="exp-housing" class="exp-amount">0</td>
+                            <td id="exp-housing-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="transport">
+                            <td><span class="legend legend--medium bg-yellow-green"></span>Transportation</td>
+                            <td>5%</td>
+                            <td id="exp-transportation-limit" class="budget-limit">0</td>
+                            <td id="exp-transportation" class="exp-amount">0</td>
+                            <td id="exp-transportation-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="education">
+                            <td><span class="legend legend--medium bg-orange"></span>Educational</td>
+                            <td>15%</td>
+                            <td id="exp-educational-limit" class="budget-limit">0</td>
+                            <td id="exp-educational" class="exp-amount">0</td>
+                            <td id="exp-educational-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="entertainment">
+                            <td><span class="legend legend--medium bg-sky-blue"></span>Entertainment</td>
+                            <td>10%</td>
+                            <td id="exp-entertainment-limit" class="budget-limit">0</td>
+                            <td id="exp-entertainment" class="exp-amount">0</td>
+                            <td id="exp-entertainment-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="medical">
+                            <td><span class="legend legend--medium bg-light-coral"></span>Medical</td>
+                            <td>5%</td>
+                            <td id="exp-medical-limit" class="budget-limit">0</td>
+                            <td id="exp-medical" class="exp-amount">0</td>
+                            <td id="exp-medical-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="personal">
+                            <td><span class="legend legend--medium bg-teal"></span>Personal</td>
+                            <td>10%</td>
+                            <td id="exp-personal-limit" class="budget-limit">0</td>
+                            <td id="exp-personal" class="exp-amount">0</td>
+                            <td id="exp-personal-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="utility">
+                            <td><span class="legend legend--medium bg-dark-orchid"></span>Utility</td>
+                            <td>10%</td>
+                            <td id="exp-utility-limit" class="budget-limit">0</td>
+                            <td id="exp-utility" class="exp-amount">0</td>
+                            <td id="exp-utility-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="other">
+                            <td><span class="legend legend--medium bg-golden-rod"></span>Other</td>
+                            <td>5%</td>
+                            <td id="exp-other-limit" class="budget-limit">0</td>
+                            <td id="exp-other" class="exp-amount">0</td>
+                            <td id="exp-other-available" class="exp-amount-available">0</td>
+                        </tr>
+                        <tr class="total">
+                            <td>Total</td>
+                            <td>100%</td>
+                            <td id="exp-total-limit">0</td>
+                            <td id="exp-total">0</td>
+                            <td id="exp-total-available">0</td>
+                        </tr>    
+                        </table>
+                </div>         
+                </div>
+             </div>
+        </div>
+    </main>
+    <footer>
+        Site designed by Ambreen Khan. All rights reserved.
+    </footer>
+    <script src="index.js"></script>
+</body>
+</html>
+
